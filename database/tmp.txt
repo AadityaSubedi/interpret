@@ -1,0 +1,94 @@
+#  implement AND, OR and XOR here
+
+from typing import Literal, Pattern
+from typing import Pattern, Match
+import sys
+
+bitType = Literal["0", "1"]
+
+
+def AND(a: bitType, b: bitType):
+
+    return int(a == b == 1)
+
+
+def OR(a: bitType, b: bitType):
+
+    return NOT(int(a == b == 0))
+
+
+def NOT(a: bitType):
+    return 1 if a == 0 else 0
+
+
+def XOR(a: bitType, b: bitType):
+    return int(a != b)
+
+
+# design a 1 bit full - adder
+# output : carry
+#           sum
+
+# input 1 bit , 2 bit and carry bit
+
+
+
+
+
+class fulladder():
+    def __init__(self, a, b, c):
+        self.__bit0 = a
+        self.__bit1 = b
+        self.__carry = AND(a, b) + AND(XOR(a, b), c)
+        self.__sum = XOR(XOR(a, b), c)
+
+    def carry(self):
+        return self.__carry
+
+    def sum(self):
+        return self.__sum
+
+
+# design a n -bit adder
+#  input data,
+# output result
+#
+class nBitAddr():
+    def __init__(self, first: int, second: int):
+        self.__first = first
+        self.__second = second
+
+    def __str__(self):
+        return str(self.getResult())
+
+    def getResult(self):
+        carry = 0
+        SUM = 0
+        power = 0
+        while (self.__first != 0 and self.__second != 0):
+            bit0 = self.__first % 10
+            bit1 = self.__second % 10
+            fulladdr = fulladder(bit0, bit1, carry)
+
+            bitSum = fulladdr.sum()
+
+            SUM = bitSum * 10 ** power + SUM
+            carry = fulladdr.carry()
+            power += 1
+            self.__first //= 10
+            self.__second //= 10
+        SUM = carry * 10 ** power + SUM
+        return SUM
+
+
+if __name__ == "__main__":
+    try:
+        
+
+        assert len(sys.argv) == 3, "Provide 2 arguments"
+        
+        addition = nBitAddr(int(sys.argv[1]), int(sys.argv[2]))
+        print(addition)
+        
+    except Exception as e:
+        print(e)
