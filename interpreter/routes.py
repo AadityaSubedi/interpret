@@ -8,7 +8,6 @@ import subprocess
 @interpreter_api.resource("")
 class Intrepreter(Resource):
     def get(self):
-        return "success"
         data = request.get_json()
         print(data)
         # return data
@@ -20,7 +19,6 @@ class Intrepreter(Resource):
         # run the file on the shells
         a = subprocess.check_output(
             ["python", filepath, *data["arguments"]]).decode("utf-8")
-        print(a)
 
         # return the command line output as the reesponse
         return {
